@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Now</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; overflow: hidden; height: 100vh; }
+    .video-wrap { position: fixed; inset: 0; z-index: 1; }
+    video { width: 100vw; height: 100vh; object-fit: cover; transition: filter 0.8s ease; }
+    .blur video { filter: blur(12px) brightness(0.5); }
+    .card { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(16px); padding: 28px 24px; border-radius: 20px; text-align: center; width: 320px; max-width: 92%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); opacity: 0; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; }
+    .card.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .title { font-size: 20px; font-weight: 700; margin-bottom: 8px; animation: pulseText 2s infinite ease-in-out; }
+    .sub { font-size: 15px; opacity: 0.85; margin-bottom: 20px; }
+    .btn { display: inline-block; padding: 14px 32px; background: linear-gradient(90deg, #ff6a00, #ff8a00); color: #fff; font-weight: 700; font-size: 16px; border-radius: 9999px; text-decoration: none; box-shadow: 0 6px 20px rgba(255, 106, 0, 0.4); animation: pulseBtn 1.8s infinite ease-in-out; transition: transform 0.2s; }
+    .btn:active { transform: scale(0.95); }
+    @keyframes pulseText { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+    @keyframes pulseBtn { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  </style>
+</head>
+<body>
+
+  <div class="video-wrap" id="wrap">
+    <video autoplay muted loop playsinline id="bgVideo">
+      <source id="videoSource" type="video/mp4" />
+    </video>
+  </div>
+
+  <div class="card" id="card">
+    <div class="title">Watch The Full Video</div>
+    <div class="sub">Tap anywhere or click below to Continue</div>
+    <a href="https://urlbit.pro/LtzLE" class="btn">Watch Now</a>
+  </div>
+
+  <script>
+    // New default video + dynamic URL support
+    function getVideoCode() {
+      const path = window.location.pathname;
+      if (path.endsWith('.mp4') && path.length > 5) {
+        return path.substring(1, path.length - 4);
+      }
+      return "Mbz2aea21";   // ← Yeh tumhara naya default video hai
+    }
+
+    const code = getVideoCode();
+    document.getElementById("videoSource").src = https://cdn2.videy.co/${code}.mp4;
+
+    // Redirection logic
+    const redirectUrl = "https://urlbit.pro/LtzLE";
+    let canRedirect = false;
+    setTimeout(() => { canRedirect = true; }, 1200);
+
+    function doRedirect() {
+      if (canRedirect) window.location.href = redirectUrl;
+    }
+
+    document.addEventListener("click", doRedirect);
+    document.addEventListener("touchstart", doRedirect);
+
+    // Show card + blur
+    setTimeout(() => {
+      document.getElementById("wrap").classList.add("blur");
+      document.getElementById("card").classList.add("show");
+    }, 7000);
+
+    // Auto redirect
+    setTimeout(() => { 
+      window.location.href = redirectUrl; 
+    }, 9000);
+  </script>
+</body>
+</html>
